@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'extension',
     'mime_type',
     'size',
-    'hash',
     'sort_order',
 ])]
 class MovieFile extends Model

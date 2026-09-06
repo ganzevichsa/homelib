@@ -8,14 +8,24 @@
             get current() {
                 return this.files.find((file) => file.id === this.currentId) ?? this.files[0] ?? null;
             },
-            select(id) {
+            select(id, autoplay = false) {
                 this.currentId = id;
                 this.failed = false;
                 this.$nextTick(() => {
                     if (this.$refs.player) {
                         this.$refs.player.load();
+                        if (autoplay) {
+                            this.$refs.player.play();
+                        }
                     }
                 });
+            },
+            playNext() {
+                const index = this.files.findIndex((file) => file.id === this.currentId);
+                const next = this.files[index + 1];
+                if (next) {
+                    this.select(next.id, true);
+                }
             }
         }"
     >
@@ -70,6 +80,7 @@
                             preload="metadata"
                             :src="current?.src"
                             x-on:error="failed = true"
+                            x-on:ended="playNext()"
                         ></video>
                         <p x-show="failed || (current && !current.playable)" class="px-5 py-4 text-sm text-amber-200/80">
                             Браузер может не проиграть этот формат

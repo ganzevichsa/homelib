@@ -88,7 +88,7 @@ class MovieLibrary
     }
 
     /**
-     * @return array{filename: string, path: string, extension: string, mime_type: ?string, size: int, hash: string}
+     * @return array{filename: string, path: string, extension: string, mime_type: ?string, size: int}
      */
     public function attributes(string $filename): array
     {
@@ -101,7 +101,6 @@ class MovieLibrary
             'extension' => strtolower((string) pathinfo($filename, PATHINFO_EXTENSION)),
             'mime_type' => is_file($fullPath) ? (mime_content_type($fullPath) ?: null) : null,
             'size' => $this->disk()->size($relativePath),
-            'hash' => is_file($fullPath) ? (hash_file('sha256', $fullPath) ?: '') : '',
         ];
     }
 

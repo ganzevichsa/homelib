@@ -75,7 +75,8 @@ class LibraryMovieTest extends TestCase
             ->get(route('library.movie', $movie))
             ->assertOk()
             ->assertSee('<video', false)
-            ->assertSee('stream', false);
+            ->assertSee('stream', false)
+            ->assertSee('playNext', false);
     }
 
     public function test_guest_cannot_stream_a_movie_file(): void

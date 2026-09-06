@@ -2,35 +2,33 @@
 
 namespace App\Models;
 
-use App\Enums\MediaType;
-use Database\Factories\MediaItemFactory;
+use Database\Factories\MovieFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
 #[Fillable([
-    'type',
     'title',
     'original_title',
     'description',
-    'path',
-    'filename',
-    'mime_type',
-    'extension',
-    'size',
-    'hash',
-    'thumbnail_path',
     'year',
-    'metadata',
 ])]
 #[Translatable('title', 'description')]
-class MediaItem extends Model
+class Movie extends Model
 {
-    /** @use HasFactory<MediaItemFactory> */
+    /** @use HasFactory<MovieFactory> */
     use HasFactory, HasTranslations, SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Movie $movie): void {
+            $movie->files()->delete();
+        });
+    }
 
     /**
      * @return array<string, string>
@@ -38,10 +36,15 @@ class MediaItem extends Model
     protected function casts(): array
     {
         return [
-            'type' => MediaType::class,
-            'size' => 'integer',
             'year' => 'integer',
-            'metadata' => 'array',
         ];
+    }
+
+    /**
+     * @return HasMany<MovieFile, $this>
+     */
+    public function files(): HasMany
+    {
+        return $this->hasMany(MovieFile::class)->orderBy('sort_order')->orderBy('id');
     }
 }

@@ -15,7 +15,7 @@
             Категории
         </p>
 
-        <x-sidebar-link :href="route('admin.movies')" :active="request()->routeIs('admin.movies')">Фильмы</x-sidebar-link>
+        <x-sidebar-link :href="route('admin.movies')" :active="request()->routeIs('admin.movies*')">Фильмы</x-sidebar-link>
         <x-sidebar-link :href="route('admin.series')" :active="request()->routeIs('admin.series')">Сериалы</x-sidebar-link>
         <x-sidebar-link :href="route('admin.cartoons')" :active="request()->routeIs('admin.cartoons')">Мультфильмы</x-sidebar-link>
         <x-sidebar-link :href="route('admin.animated-series')" :active="request()->routeIs('admin.animated-series')">Мультсериалы</x-sidebar-link>

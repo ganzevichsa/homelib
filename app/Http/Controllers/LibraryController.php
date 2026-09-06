@@ -24,7 +24,7 @@ class LibraryController extends Controller
 
     public function movie(Movie $movie): View
     {
-        $movie->load('files');
+        $movie->load(['files', 'genres', 'countries']);
 
         return view('library.movies.show', [
             'movie' => $movie,

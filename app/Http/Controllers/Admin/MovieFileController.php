@@ -7,7 +7,9 @@ use App\Http\Requests\StoreMovieFileRequest;
 use App\Models\Movie;
 use App\Models\MovieFile;
 use App\Support\MovieLibrary;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class MovieFileController extends Controller
@@ -16,8 +18,16 @@ class MovieFileController extends Controller
     {
         return view('admin.movies.files.create', [
             'movie' => $movie,
-            'filenames' => $library->unattachedFilenames(),
             'directory' => $library->disk()->path($library->directory()),
+        ]);
+    }
+
+    public function search(Request $request, MovieLibrary $library): JsonResponse
+    {
+        $query = trim((string) $request->query('q', ''));
+
+        return response()->json([
+            'filenames' => $library->suggest($query),
         ]);
     }
 

@@ -22,6 +22,10 @@ class StoreMovieRequest extends FormRequest
             'original_title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'year' => ['nullable', 'integer', 'min:1870', 'max:2100'],
+            'genre_ids' => ['nullable', 'array'],
+            'genre_ids.*' => ['integer', 'exists:genres,id'],
+            'country_ids' => ['nullable', 'array'],
+            'country_ids.*' => ['integer', 'exists:countries,id'],
         ];
     }
 
@@ -42,5 +46,21 @@ class StoreMovieRequest extends FormRequest
             ] : null,
             'year' => $this->validated('year'),
         ];
+    }
+
+    /**
+     * @return list<int>
+     */
+    public function genreIds(): array
+    {
+        return array_map('intval', $this->validated('genre_ids') ?? []);
+    }
+
+    /**
+     * @return list<int>
+     */
+    public function countryIds(): array
+    {
+        return array_map('intval', $this->validated('country_ids') ?? []);
     }
 }

@@ -6,6 +6,7 @@ use Database\Factories\MovieFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\Attributes\Translatable;
@@ -46,5 +47,21 @@ class Movie extends Model
     public function files(): HasMany
     {
         return $this->hasMany(MovieFile::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /**
+     * @return BelongsToMany<Genre, $this>
+     */
+    public function genres(): BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class)->orderBy('genres.name');
+    }
+
+    /**
+     * @return BelongsToMany<Country, $this>
+     */
+    public function countries(): BelongsToMany
+    {
+        return $this->belongsToMany(Country::class)->orderBy('countries.name');
     }
 }

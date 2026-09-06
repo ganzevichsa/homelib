@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Support\MovieLibrary;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreMovieFileRequest extends FormRequest
 {
@@ -24,7 +24,16 @@ class StoreMovieFileRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'year' => ['nullable', 'integer', 'min:1870', 'max:2100'],
             'description' => ['nullable', 'string'],
-            'filename' => ['required', 'string', Rule::in($library->unattachedFilenames())],
+            'filename' => [
+                'required',
+                'string',
+                'max:255',
+                function (string $attribute, mixed $value, Closure $fail) use ($library): void {
+                    if (! is_string($value) || ! $library->isAvailable($value)) {
+                        $fail('Такого файла нет в папке или он уже привязан.');
+                    }
+                },
+            ],
         ];
     }
 }

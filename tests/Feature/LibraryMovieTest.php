@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Enums\Locale;
 use App\Enums\MediaType;
+use App\Models\Country;
+use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,6 +22,9 @@ class LibraryMovieTest extends TestCase
             ],
             'year' => 1999,
         ]);
+
+        $movie->genres()->attach(Genre::query()->create(['name' => 'Фантастика']));
+        $movie->countries()->attach(Country::query()->create(['name' => 'США']));
 
         $movie->files()->create([
             'title' => 'Матрица 1999',
@@ -41,6 +46,8 @@ class LibraryMovieTest extends TestCase
             ->assertOk()
             ->assertSee('Матрица')
             ->assertSee('Матрица 1999')
-            ->assertSee('Первая часть трилогии.');
+            ->assertSee('Первая часть трилогии.')
+            ->assertSee('Фантастика')
+            ->assertSee('США');
     }
 }

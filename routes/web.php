@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/movies/{movie}/edit', [MovieController::class, 'edit'])->name('movies.edit');
         Route::put('/movies/{movie}', [MovieController::class, 'update'])->name('movies.update');
         Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
+        Route::get('/movies/files/search', [MovieFileController::class, 'search'])->name('movies.files.search');
         Route::get('/movies/{movie}/files/create', [MovieFileController::class, 'create'])->name('movies.files.create');
         Route::post('/movies/{movie}/files', [MovieFileController::class, 'store'])->name('movies.files.store');
         Route::delete('/movies/{movie}/files/{file}', [MovieFileController::class, 'destroy'])->name('movies.files.destroy');

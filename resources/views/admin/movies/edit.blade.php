@@ -33,6 +33,8 @@
                             'originalTitle' => $movie->original_title,
                             'year' => $movie->year,
                             'description' => $movie->getTranslation('description', \App\Enums\Locale::Ru->value, false),
+                            'selectedGenreIds' => $movie->genres->pluck('id')->all(),
+                            'selectedCountryIds' => $movie->countries->pluck('id')->all(),
                         ])
 
                         <x-primary-button>Сохранить карточку</x-primary-button>

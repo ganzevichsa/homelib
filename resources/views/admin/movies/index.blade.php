@@ -24,6 +24,12 @@
                                 <div class="font-medium">{{ $movie->title }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">
                                     @if ($movie->year){{ $movie->year }} · @endif{{ $movie->files->count() }} файлов
+                                    @if ($movie->genres->isNotEmpty())
+                                        · {{ $movie->genres->pluck('name')->join(', ') }}
+                                    @endif
+                                    @if ($movie->countries->isNotEmpty())
+                                        · {{ $movie->countries->pluck('name')->join(', ') }}
+                                    @endif
                                 </div>
                                 @if ($movie->files->isNotEmpty())
                                     <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">

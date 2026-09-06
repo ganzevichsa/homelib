@@ -8,8 +8,16 @@
             <p class="mt-3 text-lg text-white/50">{{ $movie->original_title }}</p>
         @endif
 
-        @if ($movie->year)
-            <p class="mt-4 text-sm text-white/40">{{ $movie->year }}</p>
+        @if ($movie->year || $movie->genres->isNotEmpty() || $movie->countries->isNotEmpty())
+            <p class="mt-4 text-sm text-white/40">
+                @if ($movie->year){{ $movie->year }}@endif
+                @if ($movie->genres->isNotEmpty())
+                    @if ($movie->year) · @endif{{ $movie->genres->pluck('name')->join(', ') }}
+                @endif
+                @if ($movie->countries->isNotEmpty())
+                    @if ($movie->year || $movie->genres->isNotEmpty()) · @endif{{ $movie->countries->pluck('name')->join(', ') }}
+                @endif
+            </p>
         @endif
 
         @if ($movie->description)

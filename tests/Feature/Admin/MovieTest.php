@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Country;
+use App\Models\Genre;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,6 +94,35 @@ class MovieTest extends TestCase
         $this->assertSame(0, $movie->files()->count());
     }
 
+    public function test_admin_can_attach_genres_and_countries(): void
+    {
+        $user = User::factory()->create();
+        $comedy = Genre::query()->create(['name' => 'Комедия']);
+        $action = Genre::query()->create(['name' => 'Боевик']);
+        $usa = Country::query()->create(['name' => 'США']);
+        $uk = Country::query()->create(['name' => 'Великобритания']);
+
+        $this->actingAs($user)
+            ->post(route('admin.movies.store'), [
+                'title' => 'Матрица Трилогия',
+                'genre_ids' => [$comedy->id, $action->id],
+                'country_ids' => [$usa->id, $uk->id],
+            ])
+            ->assertRedirect();
+
+        $movie = Movie::query()->first();
+
+        $this->assertNotNull($movie);
+        $this->assertEqualsCanonicalizing(
+            [$comedy->id, $action->id],
+            $movie->genres()->pluck('genres.id')->all(),
+        );
+        $this->assertEqualsCanonicalizing(
+            [$usa->id, $uk->id],
+            $movie->countries()->pluck('countries.id')->all(),
+        );
+    }
+
     public function test_create_movie_page_does_not_scan_for_free_files(): void
     {
         $user = User::factory()->create();
@@ -101,5 +132,36 @@ class MovieTest extends TestCase
             ->assertOk()
             ->assertSee('Матрица Трилогия')
             ->assertDontSee('Свободных файлов нет');
+    }
+
+    public function test_add_file_page_does_not_list_directory_files(): void
+    {
+        Storage::fake('media');
+        Storage::disk('media')->put('movies/Hidden.File.mkv', 'one');
+
+        $user = User::factory()->create();
+        $movie = Movie::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('admin.movies.files.create', $movie))
+            ->assertOk()
+            ->assertDontSee('Hidden.File.mkv')
+            ->assertSee('начни вводить имя');
+    }
+
+    public function test_file_search_returns_matching_unattached_names(): void
+    {
+        Storage::fake('media');
+        Storage::disk('media')->put('movies/Matrix.1999.mkv', 'one');
+        Storage::disk('media')->put('movies/Inception.2010.mkv', 'two');
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->getJson(route('admin.movies.files.search', ['q' => 'matr']))
+            ->assertOk()
+            ->assertExactJson([
+                'filenames' => ['Matrix.1999.mkv'],
+            ]);
     }
 }

@@ -6,7 +6,6 @@ enum MediaType: string
 {
     case Movie = 'movie';
     case Series = 'series';
-    case Episode = 'episode';
     case Cartoon = 'cartoon';
     case AnimatedSeries = 'animated_series';
     case Documentary = 'documentary';
@@ -14,16 +13,16 @@ enum MediaType: string
     case Book = 'book';
     case Audiobook = 'audiobook';
     case Game = 'game';
-    case Photo = 'photo';
-    case Video = 'video';
+    case Gallery = 'gallery';
     case Document = 'document';
     case File = 'file';
+    case Other = 'other';
 
     public function directory(): string
     {
         return match ($this) {
             self::Movie => 'movies',
-            self::Series, self::Episode => 'series',
+            self::Series => 'series',
             self::Cartoon => 'cartoons',
             self::AnimatedSeries => 'animated-series',
             self::Documentary => 'documentaries',
@@ -31,10 +30,59 @@ enum MediaType: string
             self::Book => 'books',
             self::Audiobook => 'audiobooks',
             self::Game => 'games',
-            self::Photo => 'photos',
-            self::Video => 'videos',
+            self::Gallery => 'gallery',
             self::Document => 'documents',
             self::File => 'files',
+            self::Other => 'other',
+        };
+    }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Movie => 'Фильмы',
+            self::Series => 'Сериалы',
+            self::Cartoon => 'Мультфильмы',
+            self::AnimatedSeries => 'Мультсериалы',
+            self::Documentary => 'Документальные',
+            self::Music => 'Аудио',
+            self::Book => 'Книги',
+            self::Audiobook => 'Аудиокниги',
+            self::Game => 'Игры',
+            self::Gallery => 'Галерея',
+            self::Document => 'Документы',
+            self::File => 'Файлы',
+            self::Other => 'Остальное',
+        };
+    }
+
+    /**
+     * @return list<self>
+     */
+    public static function home(): array
+    {
+        return [
+            self::Movie,
+            self::Series,
+            self::Cartoon,
+            self::AnimatedSeries,
+            self::Music,
+            self::Book,
+            self::File,
+            self::Other,
+            self::Audiobook,
+            self::Game,
+            self::Gallery,
+            self::Document,
+        ];
+    }
+
+    public function homeSize(): string
+    {
+        return match ($this) {
+            self::Movie, self::Series, self::Cartoon => 'text-3xl sm:text-5xl md:text-6xl',
+            self::AnimatedSeries, self::Music, self::Book, self::Audiobook => 'text-2xl sm:text-4xl',
+            default => 'text-xl sm:text-3xl',
         };
     }
 }

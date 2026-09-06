@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\MovieController;
+use App\Http\Controllers\Admin\MovieFileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
@@ -19,7 +20,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/movies', [MovieController::class, 'index'])->name('movies');
         Route::get('/movies/create', [MovieController::class, 'create'])->name('movies.create');
         Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
+        Route::get('/movies/{movie}/edit', [MovieController::class, 'edit'])->name('movies.edit');
+        Route::put('/movies/{movie}', [MovieController::class, 'update'])->name('movies.update');
         Route::delete('/movies/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
+        Route::get('/movies/{movie}/files/create', [MovieFileController::class, 'create'])->name('movies.files.create');
+        Route::post('/movies/{movie}/files', [MovieFileController::class, 'store'])->name('movies.files.store');
+        Route::delete('/movies/{movie}/files/{file}', [MovieFileController::class, 'destroy'])->name('movies.files.destroy');
         Route::view('/series', 'admin.category', ['title' => 'Сериалы'])->name('series');
         Route::view('/cartoons', 'admin.category', ['title' => 'Мультфильмы'])->name('cartoons');
         Route::view('/animated-series', 'admin.category', ['title' => 'Мультсериалы'])->name('animated-series');

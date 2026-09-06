@@ -12,34 +12,27 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
-            @if (session('status') === 'movie-created')
-                <p class="text-sm text-green-600 dark:text-green-400">Фильм добавлен.</p>
-            @elseif (session('status') === 'movie-deleted')
-                <p class="text-sm text-green-600 dark:text-green-400">Запись удалена. Файл на диске остался.</p>
+            @if (session('status') === 'movie-deleted')
+                <p class="text-sm text-green-600 dark:text-green-400">Запись удалена. Файлы на диске остались.</p>
             @endif
-
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                Файлы лежат в <span class="font-mono break-all">{{ $directory }}</span>
-                @if (count($availableFiles))
-                    · свободно: {{ count($availableFiles) }}
-                @endif
-            </p>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @forelse ($movies as $movie)
                         <div class="flex flex-col gap-3 py-4 border-t border-gray-200 dark:border-gray-700 first:border-t-0 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
+                            <a href="{{ route('admin.movies.edit', $movie) }}" class="hover:underline">
                                 <div class="font-medium">{{ $movie->title }}</div>
                                 <div class="text-sm text-gray-500 dark:text-gray-400">
                                     @if ($movie->year){{ $movie->year }} · @endif{{ $movie->files->count() }} файлов
                                 </div>
-                                <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">
-                                    {{ $movie->files->pluck('title')->join(', ') }}
-                                </div>
-                            </div>
+                                @if ($movie->files->isNotEmpty())
+                                    <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                                        {{ $movie->files->pluck('title')->join(', ') }}
+                                    </div>
+                                @endif
+                            </a>
 
-                            <form method="POST" action="{{ route('admin.movies.destroy', $movie) }}" onsubmit="return confirm('Удалить запись? Файл останется в папке.')">
+                            <form method="POST" action="{{ route('admin.movies.destroy', $movie) }}" onsubmit="return confirm('Удалить карточку? Файлы на диске останутся.')">
                                 @csrf
                                 @method('delete')
                                 <x-danger-button>Удалить</x-danger-button>

@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Translatable::fallback(
-            fallbackLocale: Locale::En->value,
+            fallbackLocale: Locale::Ru->value,
             fallbackAny: true,
         );
     }

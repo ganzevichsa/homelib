@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'movie_id',
     'title',
+    'description',
+    'year',
     'filename',
     'path',
     'extension',
@@ -25,6 +27,7 @@ class MovieFile extends Model
     protected function casts(): array
     {
         return [
+            'year' => 'integer',
             'size' => 'integer',
             'sort_order' => 'integer',
         ];

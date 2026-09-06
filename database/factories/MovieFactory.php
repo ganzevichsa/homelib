@@ -13,9 +13,9 @@ class MovieFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->translations(['ru', 'en'], fake()->words(3, true)),
+            'title' => $this->translations(['ru'], fake()->words(3, true)),
             'original_title' => fake()->optional()->words(3, true),
-            'description' => $this->translations(['ru', 'en'], fake()->sentence()),
+            'description' => $this->translations(['ru'], fake()->sentence()),
             'year' => fake()->optional()->numberBetween(1950, 2026),
         ];
     }

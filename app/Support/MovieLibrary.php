@@ -40,9 +40,11 @@ class MovieLibrary
     }
 
     /**
+     * Filenames in the movies folder that are not yet attached to a movie.
+     *
      * @return list<string>
      */
-    public function unusedFiles(): array
+    public function unattachedFilenames(): array
     {
         $used = MovieFile::query()->pluck('filename');
 

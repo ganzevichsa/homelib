@@ -17,13 +17,14 @@ class LibraryMovieTest extends TestCase
         $movie = Movie::factory()->create([
             'title' => [
                 Locale::Ru->value => 'Матрица',
-                Locale::En->value => 'The Matrix',
             ],
             'year' => 1999,
         ]);
 
         $movie->files()->create([
             'title' => 'Матрица 1999',
+            'description' => 'Первая часть трилогии.',
+            'year' => 1999,
             'filename' => 'Matrix.1999.mkv',
             'path' => 'movies/Matrix.1999.mkv',
             'extension' => 'mkv',
@@ -33,12 +34,13 @@ class LibraryMovieTest extends TestCase
 
         $this->get(route('library.show', MediaType::Movie))
             ->assertOk()
-            ->assertSee('The Matrix')
+            ->assertSee('Матрица')
             ->assertDontSee('Пока пусто');
 
         $this->get(route('library.movie', $movie))
             ->assertOk()
-            ->assertSee('The Matrix')
-            ->assertSee('Матрица 1999');
+            ->assertSee('Матрица')
+            ->assertSee('Матрица 1999')
+            ->assertSee('Первая часть трилогии.');
     }
 }

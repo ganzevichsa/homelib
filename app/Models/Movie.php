@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\Attributes\Translatable;
 use Spatie\Translatable\HasTranslations;
 
@@ -17,6 +19,7 @@ use Spatie\Translatable\HasTranslations;
     'original_title',
     'description',
     'year',
+    'poster',
 ])]
 #[Translatable('title', 'description')]
 class Movie extends Model
@@ -63,5 +66,28 @@ class Movie extends Model
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class)->orderBy('countries.name');
+    }
+
+    public function hasPoster(): bool
+    {
+        return filled($this->poster)
+            && Storage::disk((string) config('media.disk'))->exists($this->poster);
+    }
+
+    public function storePoster(UploadedFile $file): void
+    {
+        $this->deletePosterFile();
+
+        $filename = $this->id.'.'.strtolower($file->getClientOriginalExtension());
+        $path = $file->storeAs((string) config('media.posters.directory'), $filename, (string) config('media.disk'));
+
+        $this->update(['poster' => $path]);
+    }
+
+    public function deletePosterFile(): void
+    {
+        if (filled($this->poster)) {
+            Storage::disk((string) config('media.disk'))->delete($this->poster);
+        }
     }
 }

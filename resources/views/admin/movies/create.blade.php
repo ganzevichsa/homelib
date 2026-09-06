@@ -14,7 +14,7 @@
                         Файлы частей добавишь после сохранения, по одному.
                     </p>
 
-                    <form method="POST" action="{{ route('admin.movies.store') }}" class="mt-6 space-y-4">
+                    <form method="POST" action="{{ route('admin.movies.store') }}" class="mt-6 space-y-4" enctype="multipart/form-data">
                         @csrf
 
                         @include('admin.movies.partials.fields')

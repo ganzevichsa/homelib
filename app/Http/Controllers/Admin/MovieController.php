@@ -30,6 +30,7 @@ class MovieController extends Controller
         $movie = Movie::query()->create($request->movieAttributes());
         $movie->genres()->sync($request->genreIds());
         $movie->countries()->sync($request->countryIds());
+        $this->syncPoster($request, $movie);
 
         return redirect()
             ->route('admin.movies.edit', $movie)
@@ -51,6 +52,7 @@ class MovieController extends Controller
         $movie->update($request->movieAttributes());
         $movie->genres()->sync($request->genreIds());
         $movie->countries()->sync($request->countryIds());
+        $this->syncPoster($request, $movie);
 
         return redirect()
             ->route('admin.movies.edit', $movie)
@@ -64,6 +66,20 @@ class MovieController extends Controller
         return redirect()
             ->route('admin.movies')
             ->with('status', 'movie-deleted');
+    }
+
+    private function syncPoster(StoreMovieRequest $request, Movie $movie): void
+    {
+        if ($request->boolean('remove_poster')) {
+            $movie->deletePosterFile();
+            $movie->update(['poster' => null]);
+
+            return;
+        }
+
+        if ($request->hasFile('poster')) {
+            $movie->storePoster($request->file('poster'));
+        }
     }
 
     /**

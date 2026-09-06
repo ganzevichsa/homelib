@@ -22,6 +22,7 @@
             </a>
 
             <nav class="flex items-center gap-4 text-sm text-white/60">
+                <a href="{{ route('library.show', \App\Enums\MediaType::Movie) }}" class="hover:text-white">Фильмы</a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="hover:text-white">Кабинет</a>
                 @else

@@ -13,7 +13,10 @@ class LibraryController extends Controller
         if ($type === MediaType::Movie) {
             return view('library.movies.index', [
                 'type' => $type,
-                'movies' => Movie::query()->with('files')->latest()->get(),
+                'movies' => Movie::query()
+                    ->with(['files', 'genres', 'countries'])
+                    ->latest()
+                    ->get(),
             ]);
         }
 
@@ -28,6 +31,18 @@ class LibraryController extends Controller
 
         return view('library.movies.show', [
             'movie' => $movie,
+            'playlist' => $movie->files->map(fn ($file): array => [
+                'id' => $file->id,
+                'title' => $file->title ?: $file->filename,
+                'year' => $file->year,
+                'description' => $file->description,
+                'extension' => $file->extension,
+                'playable' => $file->isBrowserPlayable(),
+                'mime' => $file->browserMime(),
+                'src' => auth()->check()
+                    ? route('library.movie.stream', [$movie, $file])
+                    : null,
+            ])->values(),
         ]);
     }
 }

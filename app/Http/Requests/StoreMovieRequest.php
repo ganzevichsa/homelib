@@ -26,6 +26,13 @@ class StoreMovieRequest extends FormRequest
             'genre_ids.*' => ['integer', 'exists:genres,id'],
             'country_ids' => ['nullable', 'array'],
             'country_ids.*' => ['integer', 'exists:countries,id'],
+            'poster' => [
+                'nullable',
+                'image',
+                'max:'.(int) config('media.posters.max_kilobytes'),
+                'mimes:'.implode(',', config('media.posters.mimes')),
+            ],
+            'remove_poster' => ['sometimes', 'boolean'],
         ];
     }
 

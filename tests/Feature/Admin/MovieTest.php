@@ -7,6 +7,7 @@ use App\Models\Genre;
 use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -163,5 +164,24 @@ class MovieTest extends TestCase
             ->assertExactJson([
                 'filenames' => ['Matrix.1999.mkv'],
             ]);
+    }
+
+    public function test_admin_can_upload_a_poster(): void
+    {
+        Storage::fake('media');
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->post(route('admin.movies.store'), [
+                'title' => 'Матрица Трилогия',
+                'poster' => UploadedFile::fake()->image('poster.jpg', 400, 600),
+            ])
+            ->assertRedirect();
+
+        $movie = Movie::query()->first();
+
+        $this->assertNotNull($movie?->poster);
+        Storage::disk('media')->assertExists($movie->poster);
     }
 }

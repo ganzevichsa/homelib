@@ -24,7 +24,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-medium">Карточка</h3>
 
-                    <form method="POST" action="{{ route('admin.movies.update', $movie) }}" class="mt-6 space-y-4">
+                    <form method="POST" action="{{ route('admin.movies.update', $movie) }}" class="mt-6 space-y-4" enctype="multipart/form-data">
                         @csrf
                         @method('put')
 

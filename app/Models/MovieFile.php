@@ -40,4 +40,21 @@ class MovieFile extends Model
     {
         return $this->belongsTo(Movie::class);
     }
+
+    public function isBrowserPlayable(): bool
+    {
+        return in_array($this->extension, ['mp4', 'webm', 'm4v'], true);
+    }
+
+    public function browserMime(): string
+    {
+        return match ($this->extension) {
+            'mp4', 'm4v' => 'video/mp4',
+            'webm' => 'video/webm',
+            'mov' => 'video/quicktime',
+            'mkv' => 'video/x-matroska',
+            'avi' => 'video/x-msvideo',
+            default => $this->mime_type ?: 'application/octet-stream',
+        };
+    }
 }

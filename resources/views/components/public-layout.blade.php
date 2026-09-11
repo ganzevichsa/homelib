@@ -23,6 +23,9 @@
 
             <nav class="flex items-center gap-1 text-sm text-white/60 sm:gap-3">
                 <a href="{{ route('library.show', \App\Enums\MediaType::Movie) }}" class="inline-flex min-h-11 items-center px-2 hover:text-white">Фильмы</a>
+                <a href="{{ route('library.show', \App\Enums\MediaType::Series) }}" class="inline-flex min-h-11 items-center px-2 hover:text-white">Сериалы</a>
+                <a href="{{ route('library.show', \App\Enums\MediaType::Cartoon) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Мультфильмы</a>
+                <a href="{{ route('library.show', \App\Enums\MediaType::AnimatedSeries) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Мультсериалы</a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="inline-flex min-h-11 items-center px-2 hover:text-white">Кабинет</a>
                 @else

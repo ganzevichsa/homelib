@@ -16,9 +16,9 @@
         </p>
 
         <x-sidebar-link :href="route('admin.movies')" :active="request()->routeIs('admin.movies*')">Фильмы</x-sidebar-link>
-        <x-sidebar-link :href="route('admin.series')" :active="request()->routeIs('admin.series')">Сериалы</x-sidebar-link>
-        <x-sidebar-link :href="route('admin.cartoons')" :active="request()->routeIs('admin.cartoons')">Мультфильмы</x-sidebar-link>
-        <x-sidebar-link :href="route('admin.animated-series')" :active="request()->routeIs('admin.animated-series')">Мультсериалы</x-sidebar-link>
+        <x-sidebar-link :href="route('admin.series')" :active="request()->routeIs('admin.series*')">Сериалы</x-sidebar-link>
+        <x-sidebar-link :href="route('admin.cartoons')" :active="request()->routeIs('admin.cartoons*')">Мультфильмы</x-sidebar-link>
+        <x-sidebar-link :href="route('admin.animated-series')" :active="request()->routeIs('admin.animated-series*')">Мультсериалы</x-sidebar-link>
         <x-sidebar-link :href="route('admin.audio')" :active="request()->routeIs('admin.audio')">Аудио</x-sidebar-link>
         <x-sidebar-link :href="route('admin.audiobooks')" :active="request()->routeIs('admin.audiobooks')">Аудиокниги</x-sidebar-link>
         <x-sidebar-link :href="route('admin.books')" :active="request()->routeIs('admin.books')">Книги</x-sidebar-link>

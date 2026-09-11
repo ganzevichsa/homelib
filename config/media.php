@@ -8,6 +8,21 @@ return [
         'extensions' => ['mkv', 'mp4', 'avi', 'mov', 'webm', 'm4v'],
     ],
 
+    'series' => [
+        'directory' => 'series',
+        'extensions' => ['mkv', 'mp4', 'avi', 'mov', 'webm', 'm4v'],
+    ],
+
+    'cartoons' => [
+        'directory' => 'cartoons',
+        'extensions' => ['mkv', 'mp4', 'avi', 'mov', 'webm', 'm4v'],
+    ],
+
+    'animated_series' => [
+        'directory' => 'animated-series',
+        'extensions' => ['mkv', 'mp4', 'avi', 'mov', 'webm', 'm4v'],
+    ],
+
     'posters' => [
         'directory' => 'posters',
         'mimes' => ['jpg', 'jpeg', 'png', 'webp'],

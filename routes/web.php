@@ -10,13 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/library/movie/{movie}/poster', [LibraryMovieMediaController::class, 'poster'])->name('library.movie.poster');
+Route::get('/library/movie/{movie}/files/{file}/stream', [LibraryMovieMediaController::class, 'stream'])->name('library.movie.stream');
 Route::get('/library/movie/{movie}', [LibraryController::class, 'movie'])->name('library.movie');
 Route::get('/library/{type}', [LibraryController::class, 'show'])->name('library.show');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/library/movie/{movie}/files/{file}/stream', [LibraryMovieMediaController::class, 'stream'])
-        ->name('library.movie.stream');
-});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

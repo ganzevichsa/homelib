@@ -15,6 +15,7 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertOk()
+            ->assertSee('width=device-width', false)
             ->assertSee('Фильмы')
             ->assertSee('Сериалы')
             ->assertSee('Аудиокниги');

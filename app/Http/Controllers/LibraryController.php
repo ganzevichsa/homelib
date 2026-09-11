@@ -39,9 +39,7 @@ class LibraryController extends Controller
                 'extension' => $file->extension,
                 'playable' => $file->isBrowserPlayable(),
                 'mime' => $file->browserMime(),
-                'src' => auth()->check()
-                    ? route('library.movie.stream', [$movie, $file])
-                    : null,
+                'src' => route('library.movie.stream', [$movie, $file]),
             ])->values(),
         ]);
     }

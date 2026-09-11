@@ -5,3 +5,17 @@
 [x-cloak] {
     display: none !important;
 }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+video {
+    max-width: 100%;
+}

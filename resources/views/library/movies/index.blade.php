@@ -1,34 +1,34 @@
 <x-public-layout :title="$type->label()">
-    <div class="mx-auto max-w-7xl px-5 pb-20 pt-6 sm:px-8">
-        <div class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div class="mx-auto max-w-7xl px-4 pb-24 pt-4 sm:px-8 sm:pt-6">
+        <div class="mb-6 flex flex-col gap-2 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-white/40">Библиотека</p>
-                <h1 class="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">{{ $type->label() }}</h1>
+                <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-white/40 sm:text-xs">Библиотека</p>
+                <h1 class="mt-1 text-3xl font-extrabold tracking-tight sm:mt-2 sm:text-5xl">{{ $type->label() }}</h1>
             </div>
-            <a href="{{ route('home') }}" class="text-sm text-white/40 transition hover:text-white">На главную</a>
+            <a href="{{ route('home') }}" class="inline-flex min-h-11 items-center text-sm text-white/40 transition hover:text-white">На главную</a>
         </div>
 
         @if ($movies->isEmpty())
-            <div class="rounded-3xl border border-white/10 bg-white/5 px-6 py-20 text-center">
+            <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-16 text-center sm:rounded-3xl sm:px-6 sm:py-20">
                 <p class="text-lg text-white/50">Пока пусто</p>
                 <p class="mt-2 text-sm text-white/30">Когда добавишь фильмы в кабинете, они появятся здесь.</p>
             </div>
         @else
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+            <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 xl:grid-cols-5">
                 @foreach ($movies as $movie)
-                    <a href="{{ route('library.movie', $movie) }}" class="group block">
-                        <div class="relative aspect-[2/3] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition duration-300 group-hover:-translate-y-1 group-hover:ring-white/30 group-hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]">
-                            <x-movie-cover :movie="$movie" class="transition duration-500 group-hover:scale-105" />
-                            <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent p-3 pt-16">
-                                <div class="text-sm font-semibold leading-snug text-white sm:text-base">{{ $movie->title }}</div>
-                                <div class="mt-1 text-xs text-white/55">
+                    <a href="{{ route('library.movie', $movie) }}" class="group block min-w-0">
+                        <div class="relative aspect-[2/3] overflow-hidden rounded-xl bg-white/5 ring-1 ring-white/10 transition duration-300 active:scale-[0.98] sm:rounded-2xl sm:group-hover:-translate-y-1 sm:group-hover:ring-white/30 sm:group-hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]">
+                            <x-movie-cover :movie="$movie" class="transition duration-500 sm:group-hover:scale-105" />
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent p-2 pt-12 sm:p-3 sm:pt-16">
+                                <div class="line-clamp-2 text-xs font-semibold leading-snug text-white sm:text-base">{{ $movie->title }}</div>
+                                <div class="mt-1 text-[11px] text-white/55 sm:text-xs">
                                     @if ($movie->year){{ $movie->year }}@endif
                                     @if ($movie->files->isNotEmpty())
                                         @if ($movie->year) · @endif{{ $movie->files->count() }} {{ $movie->files->count() === 1 ? 'часть' : 'частей' }}
                                     @endif
                                 </div>
                                 @if ($movie->genres->isNotEmpty())
-                                    <div class="mt-2 line-clamp-1 text-[11px] text-white/40">{{ $movie->genres->pluck('name')->join(' · ') }}</div>
+                                    <div class="mt-1 hidden line-clamp-1 text-[11px] text-white/40 sm:mt-2 sm:block">{{ $movie->genres->pluck('name')->join(' · ') }}</div>
                                 @endif
                             </div>
                         </div>

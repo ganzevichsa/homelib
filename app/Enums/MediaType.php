@@ -80,9 +80,9 @@ enum MediaType: string
     public function homeSize(): string
     {
         return match ($this) {
-            self::Movie, self::Series, self::Cartoon => 'text-3xl sm:text-5xl md:text-6xl',
-            self::AnimatedSeries, self::Music, self::Book, self::Audiobook => 'text-2xl sm:text-4xl',
-            default => 'text-xl sm:text-3xl',
+            self::Movie, self::Series, self::Cartoon => 'text-2xl sm:text-4xl md:text-6xl',
+            self::AnimatedSeries, self::Music, self::Book, self::Audiobook => 'text-xl sm:text-3xl md:text-4xl',
+            default => 'text-lg sm:text-2xl md:text-3xl',
         };
     }
 }

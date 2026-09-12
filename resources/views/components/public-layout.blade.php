@@ -1,7 +1,7 @@
 @props(['title' => null])
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['tv' => str_contains((string) request()->userAgent(), 'HomelibApp') && str_contains((string) request()->userAgent(), 'TV')])>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

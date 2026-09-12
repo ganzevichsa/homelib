@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Homelib" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:statusBarColor">#0B0B0F</item>
+        <item name="android:navigationBarColor">#0B0B0F</item>
+        <item name="android:windowBackground">#0B0B0F</item>
+        <item name="colorPrimary">#7C3AED</item>
+        <item name="colorSecondary">#22D3EE</item>
+    </style>
+</resources>

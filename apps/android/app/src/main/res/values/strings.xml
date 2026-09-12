@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Homelib</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_heading">Адрес сервера</string>
+    <string name="settings_hint">Один раз укажи IP компьютера, где крутится Homelib. Например 192.168.1.10</string>
+    <string name="server_hint">http://192.168.1.10</string>
+    <string name="server_required">Введи адрес сервера</string>
+    <string name="open_library">Открыть</string>
+    <string name="cannot_open">Не удалось открыть библиотеку. Компьютер включён и в той же сети?</string>
+    <string name="retry">Повторить</string>
+</resources>

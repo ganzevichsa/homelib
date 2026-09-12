@@ -19,3 +19,20 @@ body {
 video {
     max-width: 100%;
 }
+
+html.tv :focus,
+html.tv :focus-visible {
+    outline: 3px solid #ffffff !important;
+    outline-offset: 4px;
+}
+
+html.tv a,
+html.tv button,
+html.tv video,
+html.tv audio {
+    scroll-margin: 2rem;
+}
+
+html.tv header nav a.hidden {
+    display: inline-flex;
+}

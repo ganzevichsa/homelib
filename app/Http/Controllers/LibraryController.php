@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Enums\MediaType;
 use App\Models\Album;
 use App\Models\AnimatedSeries;
+use App\Models\Audiobook;
 use App\Models\Book;
 use App\Models\Cartoon;
+use App\Models\FileEntry;
+use App\Models\GalleryAlbum;
+use App\Models\Game;
 use App\Models\Movie;
 use App\Models\Series;
 use Illuminate\View\View;
@@ -70,6 +74,46 @@ class LibraryController extends Controller
                 'type' => $type,
                 'books' => Book::query()
                     ->with(['files', 'genres'])
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::Audiobook) {
+            return view('library.audiobooks.index', [
+                'type' => $type,
+                'audiobooks' => Audiobook::query()
+                    ->with('chapters')
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::File) {
+            return view('library.files.index', [
+                'type' => $type,
+                'entries' => FileEntry::query()
+                    ->with('files')
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::Game) {
+            return view('library.games.index', [
+                'type' => $type,
+                'games' => Game::query()
+                    ->with('files')
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::Gallery) {
+            return view('library.gallery.index', [
+                'type' => $type,
+                'albums' => GalleryAlbum::query()
+                    ->with('items')
                     ->latest()
                     ->get(),
             ]);
@@ -188,6 +232,68 @@ class LibraryController extends Controller
                 'extension' => $file->extension,
                 'readable' => $file->isBrowserReadable(),
                 'src' => route('library.book.stream', [$book, $file]),
+            ])->values(),
+        ]);
+    }
+
+    public function audiobook(Audiobook $audiobook): View
+    {
+        $audiobook->load('chapters');
+
+        return view('library.audiobooks.show', [
+            'audiobook' => $audiobook,
+            'playlist' => $audiobook->chapters->map(fn ($chapter): array => [
+                'id' => $chapter->id,
+                'number' => $chapter->number,
+                'title' => $chapter->title,
+                'extension' => $chapter->extension,
+                'playable' => $chapter->isBrowserPlayable(),
+                'mime' => $chapter->browserMime(),
+                'src' => route('library.audiobook.stream', [$audiobook, $chapter]),
+            ])->values(),
+        ]);
+    }
+
+    public function fileEntry(FileEntry $fileEntry): View
+    {
+        $fileEntry->load('files');
+
+        return view('library.files.show', [
+            'entry' => $fileEntry,
+            'playlist' => $fileEntry->files->map(fn ($file): array => [
+                'id' => $file->id,
+                'title' => $file->title ?: $file->filename,
+                'extension' => $file->extension,
+                'readable' => $file->isBrowserReadable(),
+                'src' => route('library.file.stream', [$fileEntry, $file]),
+            ])->values(),
+        ]);
+    }
+
+    public function game(Game $game): View
+    {
+        $game->load('files');
+
+        return view('library.games.show', [
+            'game' => $game,
+        ]);
+    }
+
+    public function galleryAlbum(GalleryAlbum $galleryAlbum): View
+    {
+        $galleryAlbum->load('items');
+
+        return view('library.gallery.show', [
+            'album' => $galleryAlbum,
+            'items' => $galleryAlbum->items->map(fn ($item): array => [
+                'id' => $item->id,
+                'title' => $item->label(),
+                'filename' => $item->filename,
+                'extension' => $item->extension,
+                'image' => $item->isImage(),
+                'video' => $item->isVideo(),
+                'playable' => $item->isBrowserPlayable(),
+                'src' => route('library.gallery.stream', [$galleryAlbum, $item]),
             ])->values(),
         ]);
     }

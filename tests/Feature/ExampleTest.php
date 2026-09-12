@@ -18,6 +18,9 @@ class ExampleTest extends TestCase
             ->assertSee('width=device-width', false)
             ->assertSee('Фильмы')
             ->assertSee('Сериалы')
-            ->assertSee('Аудиокниги');
+            ->assertSee('Аудиокниги')
+            ->assertDontSee('Документы')
+            ->assertDontSee('Остальное')
+            ->assertDontSee('Документальные');
     }
 }

@@ -67,13 +67,11 @@ enum MediaType: string
             self::Cartoon,
             self::AnimatedSeries,
             self::Music,
-            self::Book,
-            self::File,
-            self::Other,
             self::Audiobook,
+            self::Book,
             self::Game,
             self::Gallery,
-            self::Document,
+            self::File,
         ];
     }
 

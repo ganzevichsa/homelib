@@ -18,6 +18,8 @@ class CategoryPageTest extends TestCase
             ->get(route('admin.movies'))
             ->assertOk()
             ->assertSee('Фильмы')
-            ->assertSee('Пока пусто');
+            ->assertSee('Пока пусто')
+            ->assertDontSee('Документы')
+            ->assertDontSee('>Остальное<', false);
     }
 }

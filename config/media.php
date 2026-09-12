@@ -23,6 +23,11 @@ return [
         'extensions' => ['mkv', 'mp4', 'avi', 'mov', 'webm', 'm4v'],
     ],
 
+    'music' => [
+        'directory' => 'music',
+        'extensions' => ['mp3', 'flac', 'wav', 'm4a', 'aac', 'ogg', 'opus'],
+    ],
+
     'posters' => [
         'directory' => 'posters',
         'mimes' => ['jpg', 'jpeg', 'png', 'webp'],

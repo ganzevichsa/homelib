@@ -40,4 +40,12 @@ class Genre extends Model
     {
         return $this->belongsToMany(AnimatedSeries::class, 'genre_animated_series');
     }
+
+    /**
+     * @return BelongsToMany<Album, $this>
+     */
+    public function albums(): BelongsToMany
+    {
+        return $this->belongsToMany(Album::class, 'genre_album');
+    }
 }

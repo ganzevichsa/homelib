@@ -45,7 +45,7 @@ enum MediaType: string
             self::Cartoon => 'Мультфильмы',
             self::AnimatedSeries => 'Мультсериалы',
             self::Documentary => 'Документальные',
-            self::Music => 'Аудио',
+            self::Music => 'Музыка',
             self::Book => 'Книги',
             self::Audiobook => 'Аудиокниги',
             self::Game => 'Игры',

@@ -29,6 +29,14 @@ class GenreSeeder extends Seeder
             'Музыка',
             'Вестерн',
             'Биография',
+            'Рок',
+            'Поп',
+            'Джаз',
+            'Электроника',
+            'Хип-хоп',
+            'Классика',
+            'Метал',
+            'Блюз',
         ] as $name) {
             Genre::query()->firstOrCreate(['name' => $name]);
         }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AlbumController;
+use App\Http\Controllers\Admin\AlbumTrackController;
 use App\Http\Controllers\Admin\AnimatedEpisodeController;
 use App\Http\Controllers\Admin\AnimatedSeasonController;
 use App\Http\Controllers\Admin\AnimatedSeriesController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\LibraryAnimatedSeriesMediaController;
 use App\Http\Controllers\LibraryCartoonMediaController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\LibraryMovieMediaController;
+use App\Http\Controllers\LibraryMusicMediaController;
 use App\Http\Controllers\LibrarySeriesMediaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +35,9 @@ Route::get('/library/cartoon/{cartoon}', [LibraryController::class, 'cartoon'])-
 Route::get('/library/animated_series/{animatedSeries}/poster', [LibraryAnimatedSeriesMediaController::class, 'poster'])->name('library.animated-series.poster');
 Route::get('/library/animated_series/{animatedSeries}/episodes/{animatedEpisode}/stream', [LibraryAnimatedSeriesMediaController::class, 'stream'])->name('library.animated-series.stream');
 Route::get('/library/animated_series/{animatedSeries}', [LibraryController::class, 'animatedSeries'])->name('library.animated-series');
+Route::get('/library/music/{album}/poster', [LibraryMusicMediaController::class, 'poster'])->name('library.music.poster');
+Route::get('/library/music/{album}/tracks/{track}/stream', [LibraryMusicMediaController::class, 'stream'])->name('library.music.stream');
+Route::get('/library/music/{album}', [LibraryController::class, 'album'])->name('library.music');
 Route::get('/library/{type}', [LibraryController::class, 'show'])->name('library.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -84,7 +90,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/animated-series/{animatedSeries}/seasons/{animatedSeason}/episodes/create', [AnimatedEpisodeController::class, 'create'])->name('animated-series.episodes.create');
         Route::post('/animated-series/{animatedSeries}/seasons/{animatedSeason}/episodes', [AnimatedEpisodeController::class, 'store'])->name('animated-series.episodes.store');
         Route::delete('/animated-series/{animatedSeries}/seasons/{animatedSeason}/episodes/{animatedEpisode}', [AnimatedEpisodeController::class, 'destroy'])->name('animated-series.episodes.destroy');
-        Route::view('/audio', 'admin.category', ['title' => 'Аудио'])->name('audio');
+        Route::get('/music', [AlbumController::class, 'index'])->name('music');
+        Route::get('/music/create', [AlbumController::class, 'create'])->name('music.create');
+        Route::post('/music', [AlbumController::class, 'store'])->name('music.store');
+        Route::get('/music/tracks/search', [AlbumTrackController::class, 'search'])->name('music.tracks.search');
+        Route::get('/music/{album}/edit', [AlbumController::class, 'edit'])->name('music.edit');
+        Route::put('/music/{album}', [AlbumController::class, 'update'])->name('music.update');
+        Route::delete('/music/{album}', [AlbumController::class, 'destroy'])->name('music.destroy');
+        Route::get('/music/{album}/tracks/create', [AlbumTrackController::class, 'create'])->name('music.tracks.create');
+        Route::post('/music/{album}/tracks', [AlbumTrackController::class, 'store'])->name('music.tracks.store');
+        Route::delete('/music/{album}/tracks/{track}', [AlbumTrackController::class, 'destroy'])->name('music.tracks.destroy');
         Route::view('/books', 'admin.category', ['title' => 'Книги'])->name('books');
         Route::view('/files', 'admin.category', ['title' => 'Файлы'])->name('files');
         Route::view('/other', 'admin.category', ['title' => 'Остальное'])->name('other');

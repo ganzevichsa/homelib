@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\MediaType;
+use App\Models\Album;
 use App\Models\AnimatedSeries;
 use App\Models\Cartoon;
 use App\Models\Movie;
@@ -48,6 +49,16 @@ class LibraryController extends Controller
                 'type' => $type,
                 'seriesList' => AnimatedSeries::query()
                     ->with(['genres', 'countries', 'seasons.episodes'])
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::Music) {
+            return view('library.music.index', [
+                'type' => $type,
+                'albums' => Album::query()
+                    ->with(['tracks', 'genres'])
                     ->latest()
                     ->get(),
             ]);
@@ -133,6 +144,24 @@ class LibraryController extends Controller
                     'src' => route('library.animated-series.stream', [$animatedSeries, $episode]),
                 ]))
                 ->values(),
+        ]);
+    }
+
+    public function album(Album $album): View
+    {
+        $album->load(['tracks', 'genres']);
+
+        return view('library.music.show', [
+            'album' => $album,
+            'playlist' => $album->tracks->map(fn ($track): array => [
+                'id' => $track->id,
+                'number' => $track->number,
+                'title' => $track->title,
+                'extension' => $track->extension,
+                'playable' => $track->isBrowserPlayable(),
+                'mime' => $track->browserMime(),
+                'src' => route('library.music.stream', [$album, $track]),
+            ])->values(),
         ]);
     }
 }

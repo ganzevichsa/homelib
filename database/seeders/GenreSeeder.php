@@ -37,6 +37,8 @@ class GenreSeeder extends Seeder
             'Классика',
             'Метал',
             'Блюз',
+            'Поэзия',
+            'Проза',
         ] as $name) {
             Genre::query()->firstOrCreate(['name' => $name]);
         }

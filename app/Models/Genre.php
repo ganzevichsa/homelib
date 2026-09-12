@@ -48,4 +48,12 @@ class Genre extends Model
     {
         return $this->belongsToMany(Album::class, 'genre_album');
     }
+
+    /**
+     * @return BelongsToMany<Book, $this>
+     */
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class, 'genre_book');
+    }
 }

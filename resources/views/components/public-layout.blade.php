@@ -27,6 +27,7 @@
                 <a href="{{ route('library.show', \App\Enums\MediaType::Cartoon) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Мультфильмы</a>
                 <a href="{{ route('library.show', \App\Enums\MediaType::AnimatedSeries) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Мультсериалы</a>
                 <a href="{{ route('library.show', \App\Enums\MediaType::Music) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Музыка</a>
+                <a href="{{ route('library.show', \App\Enums\MediaType::Book) }}" class="hidden min-h-11 items-center px-2 hover:text-white sm:inline-flex">Книги</a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="inline-flex min-h-11 items-center px-2 hover:text-white">Кабинет</a>
                 @else

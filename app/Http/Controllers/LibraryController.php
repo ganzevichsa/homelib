@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\MediaType;
 use App\Models\Album;
 use App\Models\AnimatedSeries;
+use App\Models\Book;
 use App\Models\Cartoon;
 use App\Models\Movie;
 use App\Models\Series;
@@ -59,6 +60,16 @@ class LibraryController extends Controller
                 'type' => $type,
                 'albums' => Album::query()
                     ->with(['tracks', 'genres'])
+                    ->latest()
+                    ->get(),
+            ]);
+        }
+
+        if ($type === MediaType::Book) {
+            return view('library.books.index', [
+                'type' => $type,
+                'books' => Book::query()
+                    ->with(['files', 'genres'])
                     ->latest()
                     ->get(),
             ]);
@@ -161,6 +172,22 @@ class LibraryController extends Controller
                 'playable' => $track->isBrowserPlayable(),
                 'mime' => $track->browserMime(),
                 'src' => route('library.music.stream', [$album, $track]),
+            ])->values(),
+        ]);
+    }
+
+    public function book(Book $book): View
+    {
+        $book->load(['files', 'genres']);
+
+        return view('library.books.show', [
+            'book' => $book,
+            'playlist' => $book->files->map(fn ($file): array => [
+                'id' => $file->id,
+                'title' => $file->title ?: $file->filename,
+                'extension' => $file->extension,
+                'readable' => $file->isBrowserReadable(),
+                'src' => route('library.book.stream', [$book, $file]),
             ])->values(),
         ]);
     }

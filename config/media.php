@@ -28,6 +28,11 @@ return [
         'extensions' => ['mp3', 'flac', 'wav', 'm4a', 'aac', 'ogg', 'opus'],
     ],
 
+    'books' => [
+        'directory' => 'books',
+        'extensions' => ['pdf', 'epub', 'fb2', 'mobi', 'txt'],
+    ],
+
     'posters' => [
         'directory' => 'posters',
         'mimes' => ['jpg', 'jpeg', 'png', 'webp'],

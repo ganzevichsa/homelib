@@ -21,7 +21,7 @@
         <x-sidebar-link :href="route('admin.animated-series')" :active="request()->routeIs('admin.animated-series*')">Мультсериалы</x-sidebar-link>
         <x-sidebar-link :href="route('admin.music')" :active="request()->routeIs('admin.music*')">Музыка</x-sidebar-link>
         <x-sidebar-link :href="route('admin.audiobooks')" :active="request()->routeIs('admin.audiobooks')">Аудиокниги</x-sidebar-link>
-        <x-sidebar-link :href="route('admin.books')" :active="request()->routeIs('admin.books')">Книги</x-sidebar-link>
+        <x-sidebar-link :href="route('admin.books')" :active="request()->routeIs('admin.books*')">Книги</x-sidebar-link>
         <x-sidebar-link :href="route('admin.games')" :active="request()->routeIs('admin.games')">Игры</x-sidebar-link>
         <x-sidebar-link :href="route('admin.gallery')" :active="request()->routeIs('admin.gallery')">Галерея</x-sidebar-link>
         <x-sidebar-link :href="route('admin.files')" :active="request()->routeIs('admin.files')">Файлы</x-sidebar-link>

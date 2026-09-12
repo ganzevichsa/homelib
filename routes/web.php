@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AlbumTrackController;
 use App\Http\Controllers\Admin\AnimatedEpisodeController;
 use App\Http\Controllers\Admin\AnimatedSeasonController;
 use App\Http\Controllers\Admin\AnimatedSeriesController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\BookFileController;
 use App\Http\Controllers\Admin\CartoonController;
 use App\Http\Controllers\Admin\CartoonFileController;
 use App\Http\Controllers\Admin\EpisodeController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\Admin\SeasonController;
 use App\Http\Controllers\Admin\SeriesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibraryAnimatedSeriesMediaController;
+use App\Http\Controllers\LibraryBookMediaController;
 use App\Http\Controllers\LibraryCartoonMediaController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\LibraryMovieMediaController;
@@ -38,6 +41,9 @@ Route::get('/library/animated_series/{animatedSeries}', [LibraryController::clas
 Route::get('/library/music/{album}/poster', [LibraryMusicMediaController::class, 'poster'])->name('library.music.poster');
 Route::get('/library/music/{album}/tracks/{track}/stream', [LibraryMusicMediaController::class, 'stream'])->name('library.music.stream');
 Route::get('/library/music/{album}', [LibraryController::class, 'album'])->name('library.music');
+Route::get('/library/book/{book}/poster', [LibraryBookMediaController::class, 'poster'])->name('library.book.poster');
+Route::get('/library/book/{book}/files/{file}/stream', [LibraryBookMediaController::class, 'stream'])->name('library.book.stream');
+Route::get('/library/book/{book}', [LibraryController::class, 'book'])->name('library.book');
 Route::get('/library/{type}', [LibraryController::class, 'show'])->name('library.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -100,7 +106,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/music/{album}/tracks/create', [AlbumTrackController::class, 'create'])->name('music.tracks.create');
         Route::post('/music/{album}/tracks', [AlbumTrackController::class, 'store'])->name('music.tracks.store');
         Route::delete('/music/{album}/tracks/{track}', [AlbumTrackController::class, 'destroy'])->name('music.tracks.destroy');
-        Route::view('/books', 'admin.category', ['title' => 'Книги'])->name('books');
+        Route::get('/books', [BookController::class, 'index'])->name('books');
+        Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+        Route::post('/books', [BookController::class, 'store'])->name('books.store');
+        Route::get('/books/files/search', [BookFileController::class, 'search'])->name('books.files.search');
+        Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+        Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+        Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+        Route::get('/books/{book}/files/create', [BookFileController::class, 'create'])->name('books.files.create');
+        Route::post('/books/{book}/files', [BookFileController::class, 'store'])->name('books.files.store');
+        Route::delete('/books/{book}/files/{file}', [BookFileController::class, 'destroy'])->name('books.files.destroy');
         Route::view('/files', 'admin.category', ['title' => 'Файлы'])->name('files');
         Route::view('/other', 'admin.category', ['title' => 'Остальное'])->name('other');
         Route::view('/audiobooks', 'admin.category', ['title' => 'Аудиокниги'])->name('audiobooks');
